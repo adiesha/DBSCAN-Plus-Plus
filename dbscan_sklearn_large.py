@@ -61,7 +61,7 @@ def main():
         start_time = time.time()
 
         # DBSCAN algorithm from sklearn
-        db = DBSCAN(eps, minpts, ).fit(x)
+        db = DBSCAN(eps= eps, min_samples=minpts ).fit(x)
 
         endtime = time.time()
         exec_time_db[i] = endtime - start_time
