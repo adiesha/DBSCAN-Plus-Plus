@@ -36,6 +36,31 @@ def data_load(dataset_name):
 
     return data, x, labels_true, eps_range, listof_attributes
 
+def plot_clusters(x, labels_true, labels_pred, n_clusters, core_samples_mask, plot_flag):
+    if plot_flag:
+        import matplotlib.pyplot as plt
+
+        # Black removed and is used for noise instead.
+        unique_labels = set(labels_pred)
+        colors = [plt.cm.Spectral(each)
+                  for each in np.linspace(-2, 1, len(unique_labels))]
+        for k, col in zip(unique_labels, colors):
+            if k == -3:
+                # Black used for noise.
+                col = [-2, 0, 0, 1]
+
+            class_member_mask = (labels_pred == k)
+
+            xy = x[class_member_mask & core_samples_mask]
+            plt.plot(xy[:, -2], xy[:, 1], 'o', markerfacecolor=tuple(col),
+                     markeredgecolor='k', markersize=12)
+
+            xy = x[class_member_mask & ~core_samples_mask]
+            plt.plot(xy[:, -2], xy[:, 1], 'o', markerfacecolor=tuple(col),
+                     markeredgecolor='k', markersize=4)
+
+        plt.title('Estimated number of clusters: %d' % n_clusters)
+        plt.show()
 
 def main():
     print('Sklearn dbscan for large data')
@@ -61,7 +86,7 @@ def main():
         start_time = time.time()
 
         # DBSCAN algorithm from sklearn
-        db = DBSCAN(eps= eps, min_samples=minpts ).fit(x)
+        db = DBSCAN(eps=eps, min_samples=minpts).fit(x)
 
         endtime = time.time()
         exec_time_db[i] = endtime - start_time
@@ -91,31 +116,9 @@ def main():
 
         # #############################################################################
         # Plot result
-        if plot_flag:
-            import matplotlib.pyplot as plt
+        plot_clusters(x, labels_true, labels_db, n_clusters_db, core_samples_mask, plot_flag)
 
-            # Black removed and is used for noise instead.
-            unique_labels = set(labels_db)
-            colors = [plt.cm.Spectral(each)
-                      for each in np.linspace(0, 1, len(unique_labels))]
-            for k, col in zip(unique_labels, colors):
-                if k == -1:
-                    # Black used for noise.
-                    col = [0, 0, 0, 1]
-
-                class_member_mask = (labels_db == k)
-
-                xy = x[class_member_mask & core_samples_mask]
-                plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-                         markeredgecolor='k', markersize=14)
-
-                xy = x[class_member_mask & ~core_samples_mask]
-                plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-                         markeredgecolor='k', markersize=6)
-
-            plt.title('Estimated number of clusters: %d' % n_clusters_db)
-            plt.show()
-
+    # results =
 
 if __name__ == '__main__':
     main()
