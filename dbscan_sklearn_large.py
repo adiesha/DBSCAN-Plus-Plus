@@ -27,8 +27,6 @@ def data_load(dataset_name):
 
         m = 3
         n = D_shape[0]
-
-
         eps_range = np.arange(start=0.5, stop=4, step=0.1)
 
     elif dataset_name == 'shuttle':
@@ -36,6 +34,28 @@ def data_load(dataset_name):
         D_shape = data.shape
         labelCol_idx = 9
         listof_attributes = range(0, D_shape[1] - 1)
+
+    elif dataset_name == 'MINST':
+        data = pd.read_csv('/media/kaveen/D/Datasets/DBScan_Data/E_MNIST/mnist_train.csv')
+        # print(data.head())
+        D_shape = data.shape
+        labelCol_idx = 20
+        listof_attributes = range(0, D_shape[1] - 1)
+
+        m = 958
+        n = D_shape[0]
+        eps_range = np.arange(start=1, stop=1500, step=50)
+
+    elif dataset_name == 'mobile':
+        data = pd.read_csv('/media/kaveen/D/Datasets/DBScan_Data/G_mobile/train.csv')
+        # print(data.head())
+        D_shape = data.shape
+        labelCol_idx = 20
+        listof_attributes = range(0, D_shape[1] - 1)
+
+        m = 112
+        n = D_shape[0]
+        eps_range = np.arange(start=250, stop=800, step=10)
 
     labels_true = data.iloc[:, labelCol_idx].values
     x = data.iloc[:, listof_attributes].values
@@ -74,7 +94,7 @@ def plot_clusters(x, labels_true, labels_pred, n_clusters, core_samples_mask, pl
 def main():
     print('Sklearn dbscan for large data')
 
-    dataset_name = 'iris'
+    dataset_name = 'mobile'
 
     data, x, labels_true, eps_range, listof_attributes, m, n, factor, labelCol_idx = data_load(dataset_name)
 
@@ -102,7 +122,7 @@ def main():
 
     for i in range(len(eps_range)):
         eps = eps_range[i]
-        # print('epsilon = '+str(eps))
+        print('epsilon = '+str(eps))
 
         start_time = time.time()
         # DBSCAN algorithm from sklearn
