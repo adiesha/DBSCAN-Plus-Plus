@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 import time
 
 
-def dbscanp(data, k, eps, minpts, factor, initialization=None, plot=False, plotPath='data/result.png', norm=None):
+def dbscanp(data, k, eps, minpts, factor, initialization=None, plot=False, plotPath='data/result.png', norm=None,
+            leafsize=10):
     start_time = time.time()
 
     querycount = 0
@@ -21,7 +22,7 @@ def dbscanp(data, k, eps, minpts, factor, initialization=None, plot=False, plotP
     data[labelcolumn] = 0
 
     # Create the KDTree for the algorithm
-    neighbourhoodtree = KDTree(data.iloc[:, 0:k].values)
+    neighbourhoodtree = KDTree(data.iloc[:, 0:k].values, leafsize=leafsize)
 
     index_array = list(np.arange(0, data.shape[0], 1))
     sample = index_array
