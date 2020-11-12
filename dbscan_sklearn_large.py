@@ -57,6 +57,17 @@ def data_load(dataset_name):
         n = D_shape[0]
         eps_range = np.arange(start=250, stop=800, step=10)
 
+    elif dataset_name == 'letters':
+        data = pd.read_csv('/media/kaveen/D/Datasets/DBScan_Data/G_mobile/train.csv')
+        # print(data.head())
+        D_shape = data.shape
+        labelCol_idx = 16
+        listof_attributes = range(1, D_shape[1] - 1)
+
+        m = 551
+        n = D_shape[0]
+        eps_range = np.arange(start=250, stop=800, step=10)
+
     labels_true = data.iloc[:, labelCol_idx].values
     x = data.iloc[:, listof_attributes].values
 
