@@ -111,6 +111,9 @@ class Initialization(Enum):
 
 
 if __name__ == "__main__":
+    # import sys
+    # sys.setrecursionlimit(10000)
+
     logging.basicConfig(level=logging.WARNING)
     logging.info("Start")
     main()
