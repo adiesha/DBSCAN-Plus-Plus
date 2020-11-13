@@ -40,12 +40,13 @@ def dbscanp(data, k, eps, minpts, factor, initialization=None, plot=False, plotP
 
         neighbourhood = neighbourhoodtree.query_ball_point(data.iloc[i, 0:k], r=eps)
         querycount += 1
+        neighbourhood.remove(i)
         # print(len(neighbourhood))
         if len(neighbourhood) >= minpts:
             core_points.append(i)
 
         logging.info(neighbourhood)
-        neighbourhood.remove(i)  # remove the i from neighbourhood list to create the seedset
+         # remove the i from neighbourhood list to create the seedset
 
         seedset = neighbourhood
         j = 0
@@ -96,7 +97,7 @@ def kgreedyinitialization(data, k, m, norm=None):
 
 def main():
     data = pd.read_csv('data/iris.data', header=None)
-    result = dbscanp(data, 4, 0.485, 6, 0.5, initialization=Initialization.KCENTRE, plot=True)
+    result = dbscanp(data, 4, 0.485, 6, 1.0, initialization=Initialization.NONE, plot=True)
     result[0].to_csv('data/iris.data.dbscan.result.csv', index=False, header=False)
     print("Time: ", result[1])
     print("query count", result[2])
