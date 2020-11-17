@@ -106,7 +106,7 @@ def kgreedyinitialization(data, k, m, norm=None):
         baseTuple = np.array(data.iloc[index_max, 0:k])
         for i in data.index:
             temptuple = np.array(data.iloc[i, 0:k])
-            tempdistance = np.linalg.norm(baseTuple - temptuple, ord=norm)
+            tempdistance = np.linalg.norm(baseTuple - temptuple, ord=None)
             distance[i] = min(distance[i], tempdistance)
     return S
 
