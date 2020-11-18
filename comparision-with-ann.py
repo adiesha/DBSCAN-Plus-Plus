@@ -5,6 +5,7 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import adjusted_rand_score
 from sklearn.metrics import adjusted_mutual_info_score
 import csv
+import dbscanpp as dbscan
 
 
 def dbscan_on_ann():
@@ -115,9 +116,145 @@ def dbscanp_on_ann_kcenter():
             writer.writerow(rr)
 
 
+def dbscanp_on_ann_iris_dbscan():
+    epss = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.485, 0.495, 0.5, 0.6, 0.62, 0.65, 0.68, 0.7, 0.8, 1.0, 1.2,
+            1.5, 1.7, 1.8,
+            2.0, 2.2, 2.3]
+    for e in epss:
+        minp = 6
+        data = pd.read_csv('data/ann/iris/iris.data', header=None)
+        g_t = data[4].to_numpy()
+        result = dbann.dbscanann(data, 4, eps=e, minpts=minp, factor=1, initialization=dbann.Initialization.NONE,
+                                 plot=False)
+        result[0].to_csv('data/ann/iris/iris.data.dbscan.ann.result.csv', index=False, header=False)
+        print("Time: ", result[1])
+        print("query count", result[2])
+        g_y = data[5].to_numpy()
+        print(g_t)
+        print(g_y)
+        f_micro = f1_score(g_t, g_y, average='micro')
+        f_macro = f1_score(g_t, g_y, average='macro')
+        f_weighted = f1_score(g_t, g_y, average='weighted')
+        adj_rand = adjusted_rand_score(g_t, g_y)
+        adj_mut = adjusted_mutual_info_score(g_t, g_y)
+        print(f_micro)
+        print(f_macro)
+        print(f_weighted)
+        print(adj_rand)
+        print(adj_mut)
+        print("eps: ", e)
+        rr = [result[1], f_micro, f_macro, f_weighted, adj_rand, adj_mut, e, minp, result[2]]
+        with open('data/ann/iris/dbann.dbscan.ann.iris.result.csv', 'a') as fd:
+            writer = csv.writer(fd)
+            writer.writerow(rr)
+
+
+def dbscanp_on_ann_iris_dbscanp_kcenter():
+    epss = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.485, 0.495, 0.5, 0.6, 0.62, 0.65, 0.68, 0.7, 0.8, 1.0, 1.2,
+            1.5, 1.7, 1.8,
+            2.0, 2.2, 2.3]
+    for e in epss:
+        minp = 6
+        data = pd.read_csv('data/ann/iris/iris.data', header=None)
+        g_t = data[4].to_numpy()
+        result = dbann.dbscanann(data, 4, eps=e, minpts=minp, factor=0.1, initialization=dbann.Initialization.KCENTRE,
+                                 plot=False)
+        result[0].to_csv('data/ann/iris/iris.data.dbscanp.kcenter.ann.result.csv', index=False, header=False)
+        print("Time: ", result[1])
+        print("query count", result[2])
+        g_y = data[5].to_numpy()
+        print(g_t)
+        print(g_y)
+        f_micro = f1_score(g_t, g_y, average='micro')
+        f_macro = f1_score(g_t, g_y, average='macro')
+        f_weighted = f1_score(g_t, g_y, average='weighted')
+        adj_rand = adjusted_rand_score(g_t, g_y)
+        adj_mut = adjusted_mutual_info_score(g_t, g_y)
+        print(f_micro)
+        print(f_macro)
+        print(f_weighted)
+        print(adj_rand)
+        print(adj_mut)
+        print("eps: ", e)
+        rr = [result[1], f_micro, f_macro, f_weighted, adj_rand, adj_mut, e, minp, result[2]]
+        with open('data/ann/iris/dbann.dbscanp.kcenter.iris.result.csv', 'a') as fd:
+            writer = csv.writer(fd)
+            writer.writerow(rr)
+
+
+def dbscanp_on_ann_iris_dbscanp_uniform():
+    epss = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.485, 0.495, 0.5, 0.6, 0.62, 0.65, 0.68, 0.7, 0.8, 1.0, 1.2,
+            1.5, 1.7, 1.8,
+            2.0, 2.2, 2.3]
+    for e in epss:
+        minp = 6
+        data = pd.read_csv('data/ann/iris/iris.data', header=None)
+        g_t = data[4].to_numpy()
+        result = dbann.dbscanann(data, 4, eps=e, minpts=minp, factor=0.1, initialization=dbann.Initialization.UNIFORM,
+                                 plot=False)
+        result[0].to_csv('data/ann/iris/iris.data.dbscanp.uniform.ann.result.csv', index=False, header=False)
+        print("Time: ", result[1])
+        print("query count", result[2])
+        g_y = data[5].to_numpy()
+        print(g_t)
+        print(g_y)
+        f_micro = f1_score(g_t, g_y, average='micro')
+        f_macro = f1_score(g_t, g_y, average='macro')
+        f_weighted = f1_score(g_t, g_y, average='weighted')
+        adj_rand = adjusted_rand_score(g_t, g_y)
+        adj_mut = adjusted_mutual_info_score(g_t, g_y)
+        print(f_micro)
+        print(f_macro)
+        print(f_weighted)
+        print(adj_rand)
+        print(adj_mut)
+        print("eps: ", e)
+        rr = [result[1], f_micro, f_macro, f_weighted, adj_rand, adj_mut, e, minp, result[2]]
+        with open('data/ann/iris/dbann.dbscanp.uniform.iris.result.csv', 'a') as fd:
+            writer = csv.writer(fd)
+            writer.writerow(rr)
+
+
+def dbscan_on_iris_dbscan():
+    epss = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.485, 0.495, 0.5, 0.6, 0.62, 0.65, 0.68, 0.7, 0.8, 1.0, 1.2,
+            1.5, 1.7, 1.8,
+            2.0, 2.2, 2.3]
+    for e in epss:
+        minp = 6
+        data = pd.read_csv('data/ann/iris/iris.data', header=None)
+        g_t = data[4].to_numpy()
+        result = dbscan.dbscanp(data, 4, eps=e, minpts=minp, factor=1,
+                                 plot=False)
+        result[0].to_csv('data/ann/iris/iris.data.dbscan.result.csv', index=False, header=False)
+        print("Time: ", result[1])
+        print("query count", result[2])
+        g_y = data[5].to_numpy()
+        print(g_t)
+        print(g_y)
+        f_micro = f1_score(g_t, g_y, average='micro')
+        f_macro = f1_score(g_t, g_y, average='macro')
+        f_weighted = f1_score(g_t, g_y, average='weighted')
+        adj_rand = adjusted_rand_score(g_t, g_y)
+        adj_mut = adjusted_mutual_info_score(g_t, g_y)
+        print(f_micro)
+        print(f_macro)
+        print(f_weighted)
+        print(adj_rand)
+        print(adj_mut)
+        print("eps: ", e)
+        rr = [result[1], f_micro, f_macro, f_weighted, adj_rand, adj_mut, e, minp, result[2]]
+        with open('data/ann/iris/dbscan.dbscan.iris.result.csv', 'a') as fd:
+            writer = csv.writer(fd)
+            writer.writerow(rr)
+
+
 def main():
     # dbscanp_on_ann_uniform()
-    dbscanp_on_ann_kcenter()
+    # dbscanp_on_ann_kcenter()
+    # dbscanp_on_ann_iris_dbscan()
+    # dbscanp_on_ann_iris_dbscanp_kcenter()
+    # dbscanp_on_ann_iris_dbscanp_uniform()
+    dbscan_on_iris_dbscan()
 
 
 if __name__ == '__main__':
