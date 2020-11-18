@@ -46,7 +46,7 @@ def dbscanp(data, k, eps, minpts, factor, initialization=None, plot=False, plotP
             core_points.append(i)
 
         logging.info(neighbourhood)
-         # remove the i from neighbourhood list to create the seedset
+        # remove the i from neighbourhood list to create the seedset
 
         seedset = neighbourhood
         j = 0
@@ -84,15 +84,38 @@ def kgreedyinitialization(data, k, m, norm=None):
     n = data.shape[0]
     distance = np.full(shape=(n), fill_value=np.inf, dtype=float)
     S = set()
+    slicedData = data.iloc[:, 0:k]
+    # slicedData[slicedData.shape[1]] = slicedData.index
+    # indexCol = slicedData.shape[1] - 1
+    data_numpy_a = slicedData.to_numpy()
     for p in range(0, m):
         index_max = np.argmax(distance)
         S.add(index_max)
-        baseTuple = np.array(data.iloc[index_max, 0:k])
-        for i in data.index:
-            temptuple = np.array(data.iloc[i, 0:k])
-            tempdistance = np.linalg.norm(baseTuple - temptuple, ord=norm)
-            distance[i] = min(distance[i], tempdistance)
+        baseTuple = np.array(slicedData.iloc[index_max, 0:k])
+        logging.info("p: %d", p)
+        # slicedData[distCol] = slicedData.apply(lambda row: returnMin(baseTuple, np.array(row[0:k]), distance, row[indexCol]), axis=1)
+        # np.apply_along_axis(returnMin, 1, data_numpy_a, baseTuple, distance, k)
+        distance = vec_returnMin(data_numpy_a, baseTuple, distance, k)
     return S
+
+
+def returnMin(row, basetuple, dista, k):
+    tuple = np.array(row[0:k])
+    index = row[-1]
+    tempdistance = np.linalg.norm(basetuple - tuple, ord=None)
+    temp = min(dista[index], tempdistance)
+    dista[index] = temp
+    return temp
+
+
+def vec_returnMin(row, baseTuple, dista, k):
+    tuple = np.array(row[:, 0:k])
+    difftuple = tuple - baseTuple
+    squaretuple = np.square(difftuple)
+    distatuple = np.sqrt(squaretuple)
+    distatuplerow = np.sum(squaretuple, axis=1)
+    difftuple = np.fmin(distatuplerow, dista)
+    return difftuple
 
 
 def main():
