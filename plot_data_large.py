@@ -9,7 +9,7 @@ def data_load(name):
     elif name == 'letters':
         data = pd.read_csv('Results_large_data/letters_results.csv')
     data.head()
-    epsilon = data.iloc[:,1]
+    epsilon = data.iloc[:,1].values
     adj_rand_db = data.iloc[:, 4].values
     adj_rand_uni = data.iloc[:, 9].values
     adj_rand_kc = data.iloc[:, 14].values
@@ -20,7 +20,7 @@ def data_load(name):
 
 
 def main():
-    names = 'iris','letters', 'fashion'
+    names = 'letters', 'fashion'
     for i in range(len(names)):
         name = names[i]
         epsilon, adj_rand_db, adj_rand_uni, adj_rand_kc, adj_mut_db, adj_mut_uni, adj_mut_kc = data_load(name)
