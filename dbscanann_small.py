@@ -8,7 +8,7 @@ from sklearn import metrics
 
 def main():
     # names = 'iris', 'libras', 'mobile', 'seeds', 'spam', 'wine', 'zoo'
-    names = 'iris', 'libras'
+    names = 'mobile', 'seeds', 'spam', 'wine', 'zoo'
     for i in range(len(names)):
         dataset_name = names[i]
         
