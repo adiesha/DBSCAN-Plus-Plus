@@ -8,7 +8,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import time
 import dbscanpp as dbp
-
+import scipy
 
 from sklearn.cluster import DBSCAN
 from sklearn import metrics
@@ -58,7 +58,15 @@ def data_load(dataset_name):
         eps_range = np.arange(start=250, stop=800, step=10)
 
     elif dataset_name == 'letters':
-        data = pd.read_csv('/media/kaveen/D/Datasets/DBScan_Data/G_mobile/train.csv')
+        data_pre = pd.read_csv('/media/kaveen/D/Datasets/DBScan_Data/J_letters/letter-recognition.data',header=None)
+        col_list = list(data_pre)
+        col_list[0], col_list[-1] = col_list[-1], col_list[0]
+        data_pre = data_pre.loc[:, col_list]
+        col_list[0], col_list[-1] = col_list[-1], col_list[0]
+        data_pre.columns = col_list
+        data = pd.DataFrame(data_pre)
+        # data.reset_index(drop=True)
+        #
         # print(data.head())
         D_shape = data.shape
         labelCol_idx = 16
@@ -66,7 +74,26 @@ def data_load(dataset_name):
 
         m = 551
         n = D_shape[0]
-        eps_range = np.arange(start=250, stop=800, step=10)
+        eps_range = np.arange(start=2, stop=10, step=0.5)
+
+    elif dataset_name == 'fashion':
+        data_pre = pd.read_csv('/media/kaveen/D/Datasets/DBScan_Data/L_fashion_MINST/fashion-mnist_train.csv')
+        col_list = list(data_pre)
+        col_list[0], col_list[-1] = col_list[-1], col_list[0]
+        data_pre = data_pre.loc[:, col_list]
+        # col_list[0], col_list[-1] = col_list[-1], col_list[0]
+        # data_pre.columns = col_list
+        data = pd.DataFrame(data_pre)
+        # data.reset_index(drop=True)
+        #
+        # print(data.head())
+        D_shape = data.shape
+        labelCol_idx = 784
+        listof_attributes = range(1, D_shape[1] - 1)
+
+        m = 5674
+        n = D_shape[0]
+        eps_range = np.arange(start=200, stop=100, step=1000)
 
     labels_true = data.iloc[:, labelCol_idx].values
     x = data.iloc[:, listof_attributes].values
@@ -105,7 +132,7 @@ def plot_clusters(x, labels_true, labels_pred, n_clusters, core_samples_mask, pl
 def main():
     print('Sklearn dbscan for large data')
 
-    dataset_name = 'mobile'
+    dataset_name = 'fashion'
 
     data, x, labels_true, eps_range, listof_attributes, m, n, factor, labelCol_idx = data_load(dataset_name)
 
@@ -137,14 +164,14 @@ def main():
 
         start_time = time.time()
         # DBSCAN algorithm from sklearn
-        db = DBSCAN(eps=eps, min_samples=minpts).fit(x)
-        endtime = time.time()
-        exec_time_db[i] = endtime - start_time
-        # print("---DBSCAN exec time =  %s seconds ---" % (exec_time_db[i]))
-
-        core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
-        core_samples_mask[db.core_sample_indices_] = True
-        labels_db = db.labels_
+        # db = DBSCAN(eps=eps, min_samples=minpts).fit(x)
+        # endtime = time.time()
+        # exec_time_db[i] = endtime - start_time
+        # # print("---DBSCAN exec time =  %s seconds ---" % (exec_time_db[i]))
+        #
+        # core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
+        # core_samples_mask[db.core_sample_indices_] = True
+        # labels_db = db.labels_
 
         # Plot clusters
         plot_clusters(x, labels_true, labels_db, n_clusters_db, core_samples_mask, plot_flag)
