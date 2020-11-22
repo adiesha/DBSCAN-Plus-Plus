@@ -8,12 +8,33 @@ from sklearn import metrics
 
 def main():
     # names = 'iris', 'libras', 'mobile', 'seeds', 'spam', 'wine', 'zoo'
-    names = 'mobile', 'seeds', 'spam', 'wine', 'zoo'
+    names = 'iris', 'libras'
+    
+    # for i in range(len(names)):
+    #     if names[i] == 'iris':
+    #         eps_range = np.arange(start=0.01, stop=1, step=0.05)
+    #         eps_range = np.append(eps_range, np.arange(start=4, stop=10, step=0.2))
+            
+    #     elif names[i] == 'libras':
+    #         eps_range = np.arange(start=0.01, stop=1, step=0.05)
+    #         eps_range = np.append(eps_range, np.arange(start=1.6, stop=3.6, step=0.05))
+    
+    
     for i in range(len(names)):
         dataset_name = names[i]
         
         data, x, labels_true, eps_range, listof_attributes, m, n, factor, labelCol_idx = smd.data_load(dataset_name)
+        
+        if names[i] == 'iris':
+            eps_range = np.arange(start=0.01, stop=1, step=0.05)
+            eps_range = np.append(eps_range, np.arange(start=4, stop=10, step=0.2))
+            
+        elif names[i] == 'libras':
+            eps_range = np.arange(start=0.01, stop=1, step=0.05)
+            eps_range = np.append(eps_range, np.arange(start=1.6, stop=3.6, step=0.05))
+        
         minpts = 10
+        factor = 0.1
         plot_flag = False
         print('DBSCANPP with ANN for', str(names[i]))
         
