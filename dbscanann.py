@@ -52,8 +52,9 @@ def dbscanann(data, k, eps, minpts, factor=1.0, initialization=None, plot=False,
 
         # remove the i object and its distance from the queried result
         # neighbourhooddistnaces.remove(neighbourhoodindices.index(i))
-        del neighbourhooddistnaces[neighbourhoodindices.index(i)]
-        neighbourhoodindices.remove(i)
+        if i in neighbourhoodindices:
+            del neighbourhooddistnaces[neighbourhoodindices.index(i)]
+            neighbourhoodindices.remove(i)
 
         # run a lambda to get the boolean array that satisfies the radius condition: find the points that are in the
         # given radius

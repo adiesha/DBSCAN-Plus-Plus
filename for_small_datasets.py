@@ -45,18 +45,14 @@ def data_load(dataset_name):
         eps_range = np.arange(start=0.5, stop=100, step=1)
     
     elif dataset_name == 'wine':
-        data = pd.read_csv('data/wine/wine.data', header=None)
-        data['14'] = data.iloc[:, 0].values
-        data = data.drop(0, 1)
+        data = pd.read_csv('data/wine/winedata.csv', header=None)
         D_shape = data.shape
         m = 5
         n = D_shape[0]
         eps_range = np.arange(start=0.5, stop=500, step=5)
     
     elif dataset_name == 'zoo':
-        data = pd.read_csv('data/zoo/zoo.data', header=None)
-        data['18'] = data.iloc[:, 0].values
-        data = data.drop(0, 1)
+        data = pd.read_csv('data/zoo/zoodata.csv', header=None)
         D_shape = data.shape
         m = 8
         n = D_shape[0]
