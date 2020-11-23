@@ -224,7 +224,7 @@ def main():
          'ARAND_dbp_kg': arand_dbp_kg, 'AMIS_dbp_kg': amis_dbp_kg, 'Exec_time_dbp_kg': exec_time_dbp_kg}
     results = pd.DataFrame(d)
     print(results.head())
-    results.to_csv('Results_large_data/{0}_results.csv'.format(dataset_name))
+    results.to_csv('Results_large_data/{0}_results.csv'.format(dataset_name), index=False)
 
 
 if __name__ == '__main__':

@@ -106,20 +106,23 @@ def results_out(dataset_name, data, x, labels_true, eps, listof_attributes, m, n
     exec_time_db = np.zeros(len(factor_range))
     n_clusters_db = np.zeros(len(factor_range))
     n_noise_db = np.zeros(len(factor_range))
-    acc_db = np.zeros(len(factor_range))  # Adjusted Rand Index
-    # amis_db = np.zeros(len(factor_range))  # Adjusted Mutual Information Score
+    acc_db = np.zeros(len(factor_range))
+    arand_db = np.zeros(len(factor_range))  # Adjusted Rand Index
+    amis_db = np.zeros(len(factor_range))  # Adjusted Mutual Information Score
 
     exec_time_dbp_uni = np.zeros(len(factor_range))
     n_clusters_dbp_uni = np.zeros(len(factor_range))
     n_noise_dbp_uni = np.zeros(len(factor_range))
-    acc_dbp_uni = np.zeros(len(factor_range))  # Adjusted Rand Index
-    # amis_dbp_uni = np.zeros(len(factor_range))  # Adjusted Mutual Information Score
+    acc_dbp_uni = np.zeros(len(factor_range))
+    arand_dbp_uni = np.zeros(len(factor_range))  # Adjusted Rand Index
+    amis_dbp_uni = np.zeros(len(factor_range))  # Adjusted Mutual Information Score
 
     exec_time_dbp_kg = np.zeros(len(factor_range))
     n_clusters_dbp_kg = np.zeros(len(factor_range))
     n_noise_dbp_kg = np.zeros(len(factor_range))
-    acc_dbp_kg = np.zeros(len(factor_range))  # Adjusted Rand Index
-    # amis_dbp_kg = np.zeros(len(factor_range))  # Adjusted Mutual Information Score
+    acc_dbp_kg = np.zeros(len(factor_range))
+    arand_dbp_kg = np.zeros(len(factor_range))  # Adjusted Rand Index
+    amis_dbp_kg = np.zeros(len(factor_range))  # Adjusted Mutual Information Score
 
     for i in range(len(factor_range)):
         factor = factor_range[i]
@@ -165,17 +168,20 @@ def results_out(dataset_name, data, x, labels_true, eps, listof_attributes, m, n
         acc_dbp_uni[i] = metrics.accuracy_score(labels_true, labels_dbp_uni)
         acc_dbp_kg[i] = metrics.accuracy_score(labels_true, labels_dbp_kg)
 
-        # amis_db[i] = metrics.adjusted_mutual_info_score(labels_true, labels_db)
-        # amis_dbp_uni[i] = metrics.adjusted_mutual_info_score(labels_true, labels_dbp_uni)
-        # amis_dbp_kg[i] = metrics.adjusted_mutual_info_score(labels_true, labels_dbp_kg)
+        arand_db[i] = metrics.adjusted_rand_score(labels_true, labels_db)
+        arand_dbp_uni[i] = metrics.adjusted_rand_score(labels_true, labels_dbp_uni)
+        arand_dbp_kg[i] = metrics.adjusted_rand_score(labels_true, labels_dbp_kg)
 
-    d = {'factor': factor_range,
-         'n_clusters_db': n_clusters_db, 'n_noise_db': n_noise_db,
-         'acc_db': acc_db,  'Exec_time_db': exec_time_db,
-         'n_clusters_dbp_uni': n_clusters_dbp_uni, 'n_noise_dbp_uni': n_noise_dbp_uni,
-         'acc_dbp_uni': acc_dbp_uni,  'Exec_time_dbp_uni': exec_time_dbp_uni,
-         'n_clusters_dbp_kg': n_clusters_dbp_kg, 'n_noise_dbp_kg': n_noise_dbp_kg,
-         'acc_dbp_kg': acc_dbp_kg,  'Exec_time_dbp_kg': exec_time_dbp_kg}
+        amis_db[i] = metrics.adjusted_mutual_info_score(labels_true, labels_db)
+        amis_dbp_uni[i] = metrics.adjusted_mutual_info_score(labels_true, labels_dbp_uni)
+        amis_dbp_kg[i] = metrics.adjusted_mutual_info_score(labels_true, labels_dbp_kg)
+
+    d = {'factor': factor_range, 'n_clusters_db': n_clusters_db, 'n_noise_db': n_noise_db, 'acc_db' : acc_db,
+         'ARAND_db': arand_db, 'AMIS_db': amis_db, 'Exec_time_db': exec_time_db,
+         'n_clusters_dbp_uni': n_clusters_dbp_uni, 'n_noise_dbp_uni': n_noise_dbp_uni, 'acc_dbp_uni' : acc_dbp_uni,
+         'ARAND_dbp_uni': arand_dbp_uni, 'AMIS_dbp_uni': amis_dbp_uni, 'Exec_time_dbp_uni': exec_time_dbp_uni,
+         'n_clusters_dbp_kg': n_clusters_dbp_kg, 'n_noise_dbp_kg': n_noise_dbp_kg, 'acc_dbp_kg' : acc_dbp_kg,
+         'ARAND_dbp_kg': arand_dbp_kg, 'AMIS_dbp_kg': amis_dbp_kg, 'Exec_time_dbp_kg': exec_time_dbp_kg}
     results = pd.DataFrame(d)
     print(results.head())
     results.to_csv('Results_small_data_factor/{0}_results_factor.csv'.format(dataset_name), index=False)
