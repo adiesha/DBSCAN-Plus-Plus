@@ -58,6 +58,8 @@ def main():
         plt.plot(factor, arand_dbp_uni, 'g--')  # uniform (green)
         plt.plot(factor, amis_dbp_kg, 'r:')  # dbscan (blue)
         plt.plot(factor, arand_dbp_kg, 'r--')  # uniform (green)
+        plt.plot(factor, amis_db, 'b:')
+        plt.plot(factor, arand_db, 'b--')
         # plt.plot(factor, time_dbp_uni, 'r')  # k-center (red)
         plt.title('DBSCAN++ performance scores for ' + str(name.upper()))
         plt.savefig('Results_small_data_factor/{0}_perf_score.jpg'.format(name))
