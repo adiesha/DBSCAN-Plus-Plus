@@ -14,7 +14,7 @@ def main():
         print(type(i))
         print(i)
 
-    data = pd.read_csv('data/shuttle-unsupervised-trn.csv', header=None)
+    data = pd.read_csv('data/ann/shuttle-unsupervised-trn.csv', header=None)
     t = AnnoyIndex(9, 'euclidean')
     for i in data.index:
         t.add_item(i, data.iloc[i, 0:9])
